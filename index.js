@@ -3,6 +3,10 @@ const path = require("path");
 const fs = require("fs").promises;
 const bodyParser = require("body-parser");
 
+const util = require('util');
+const { exec } = require('child_process');
+const promisifyExec = util.promisify(exec);
+
 const router = require('./src/reposRouter');
 const APP_DATA = require('./src/appData');
 
@@ -38,7 +42,7 @@ const { path: folderPath } = require(`yargs`)
     .alias("h", "help")
     .argv;
 
-// Проверяем, существует ли папка. Если нет - создаем.
+// Проверяем, существует ли папка.
 fs.stat(folderPath)
     .then(stats => {
         if (!stats.isDirectory()) {
@@ -47,9 +51,19 @@ fs.stat(folderPath)
         }
     })
     .catch(error => {
+        // Если папки нет - мы окажемся здесь и создадим ее.
         return fs.mkdir(folderPath, { recursive: true });
     })
     .then(() => {
+        // Установлен ли гит
+        return promisifyExec('which git');
+    })
+    .then(({ stdout }) => {
+
+        if (!stdout) {
+            console.error("Git is not installed!", "\n");
+            process.exit(1);
+        }
 
         APP_DATA.FOLDER_PATH = folderPath;
 
@@ -67,8 +81,7 @@ fs.stat(folderPath)
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    // Send the rendered page back to the client
-    res.send('hello\n');
+    res.send('hello :3 \n');
 });
 
 app.use('/api/repos/', router);
