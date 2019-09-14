@@ -3,8 +3,8 @@ const path = require("path");
 const fs = require("fs").promises;
 const bodyParser = require("body-parser");
 
-const router = require('./reposRouter');
-const APP_DATA = require('./appData');
+const router = require('./src/reposRouter');
+const APP_DATA = require('./src/appData');
 
 const app = express();
 
