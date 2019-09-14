@@ -119,10 +119,6 @@ router.get('/:repositoryId/commits/:commitHash', async (req, res) => {
         res.json({ commits: resultCommits });
 
     } catch (err) {
-        // TODO:
-        // При попытке чекаута в несуществующую ветку/коммит, будет ошибка вида:
-        // err.message: "Command failed: git checkout feature2\nerror: pathspec 'feature2' did not match any file(s) known to git\n"
-        // в этом случае - возвращать 400 - bad request и сообщение об ошибке более корректное
         console.error(err);
         res.status(501).json({ error: err.message || "No such file or directory!" });
     }
@@ -205,13 +201,14 @@ router.get(/^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/, async (req, res) => 
         let mainBranch = commitHash;
 
         if(!commitHash) {
+            // определение главной ветки в репозитории
             const { stdout: mainBranchName, stderr } = await promisifyExec(`git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`);
 
             if (!mainBranchName) {
                 res.status(400).json({error: "There are no any branches in you repository yet!"});
                 return;
             }
-            mainBranch = mainBranchName;
+            mainBranch = mainBranchName.trim();
         }
 
         const { stdout: stdoutCheckout, stderr: stderrCheckout } = await promisifyExec(`git checkout ${mainBranch}`);
@@ -221,14 +218,15 @@ router.get(/^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/, async (req, res) => 
         let { stdout: remoteBranches, stderr: stderrRemoteBranches } = await promisifyExec(`git branch --remotes --format='%(refname:lstrip=-1)' | grep -v '^HEAD$'`);
 
         remoteBranches = remoteBranches.split('\n');
-        const isBranchName = remoteBranches.includes(commitHash);
+        const isBranchName = remoteBranches.includes(mainBranch);
 
         if(isBranchName) {
             const { stdout: stdoutPull, stderr: stderrPull } = await promisifyExec(`git pull`);
         }
 
-        repoPath = repoPath || '';
-        repoPath = repoPath.endsWith('/') ? repoPath.slice(1) : repoPath.slice(1) + '/';
+        repoPath = repoPath ?
+            repoPath.endsWith('/') ? repoPath.slice(1) : repoPath.slice(1) + '/'
+            : '';
 
         const { stdout: stdoutLstree, stderr: stderrLstree } = await promisifyExec(`git ls-tree ${mainBranch} ${repoPath}`);
 
