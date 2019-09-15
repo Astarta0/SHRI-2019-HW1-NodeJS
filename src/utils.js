@@ -13,7 +13,7 @@ module.exports = {
         return path.join(APP_DATA.FOLDER_PATH, '/', repositoryPath, '/.git');
     },
 
-    defineGitDirParam: gitDir => (gitDir ? `--git-dir='${gitDir}'` : ''),
+    defineGitDirParam: gitDir => (gitDir ? `--git-dir=${gitDir}` : ''),
 
     async checkAndChangeDir(path) {
         const stats = await fs.stat(path);
@@ -44,4 +44,11 @@ module.exports = {
     },
 
     wrapRoute: fn => (...args) => fn(...args).catch(args[2]),
+
+    logify: fn => {
+        return (...args) => {
+            console.log('>', ...args);
+            return fn(...args);
+        };
+    }
 };

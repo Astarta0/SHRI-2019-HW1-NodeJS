@@ -154,9 +154,7 @@ router.get(
 
         const targetDir = utils.getRepositoryPath(repositoryId);
 
-        // await utils.checkDir(targetDir);
-        // см вопрос в README
-        await utils.checkAndChangeDir(targetDir);
+        await utils.checkDir(targetDir);
 
         const gitDir = utils.getGitDir(repositoryId);
 
@@ -230,10 +228,9 @@ router.get(
 
         const targetDir = utils.getRepositoryPath(repositoryId);
 
-        // await utils.checkDir(targetDir);
-        await utils.checkAndChangeDir(targetDir);
+        await utils.checkDir(targetDir);
 
-        // const gitDir = utils.getGitDir(repositoryId);
+        const gitDir = utils.getGitDir(repositoryId);
 
         await gitUtils.fetchOrigin();
 
@@ -247,6 +244,7 @@ router.get(
 
         gitUtils.showStream({
             command,
+            gitDir,
             res,
         });
     })
