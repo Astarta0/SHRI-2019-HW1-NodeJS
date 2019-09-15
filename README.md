@@ -1,10 +1,15 @@
 # SHRI-2019-HW1-NodeJS
 
-##### Запуск:
-    node index.js -p PATH
-    
-##### Мини-Хелп:
-    node index.js -h
+```
+# Установить зависимости
+npm install
+
+# Запустить
+node index.js -p PATH
+
+# Мини хелп
+node index.js -h
+```
     
 При запуске проверяется:
 - что установлен git
