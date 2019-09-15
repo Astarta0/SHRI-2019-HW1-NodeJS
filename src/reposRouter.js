@@ -3,12 +3,12 @@ const path = require('path');
 const fs = require('fs').promises;
 const rimraf = require('rimraf');
 const junk = require('junk');
-const Queue = require('better-queue');
 
 const { NoDirectoryError, NoAnyRemoteBranchesError } = require('./errors');
 const utils = require('./utils');
 const gitUtils = require('./gitUtils');
 const APP_DATA = require('./appData');
+const queue = require('./queue');
 
 const router = express.Router();
 
@@ -83,19 +83,12 @@ router.delete('/:repositoryId', (req, res) => {
     });
 });
 
-//Возвращает массив коммитов в данной ветке (или хэше коммита) вместе с датами их создания.
+// Возвращает массив коммитов в данной ветке (или хэше коммита) вместе с датами их создания.
 // router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res) => {
 //     const { repositoryId, commitHash } = req.params;
-//     debugger;
-//
 //     const targetDir = utils.getRepositoryPath(repositoryId);
-//
-//     const gitDir = utils.getGitDir(repositoryId);
-//
 //     await utils.checkDir(targetDir);
-//
-//     const commits = await gitUtils.getCommits(commitHash, gitDir);
-//
+//     const commits = await gitUtils.getCommits(repositoryId, commitHash);
 //     res.json({ commits });
 // }));
 
@@ -110,13 +103,12 @@ router.get(
         offset = offset < 0 ? 0 : offset;
 
         const targetDir = utils.getRepositoryPath(repositoryId);
-        const gitDir = utils.getGitDir(repositoryId);
 
         await utils.checkDir(targetDir);
 
         const allCommitsNumber = await gitUtils.getNumberAllCommits(
-            commitHash,
-            gitDir
+            repositoryId,
+            commitHash
         );
 
         const skip = offset * limit;
@@ -131,8 +123,8 @@ router.get(
         }
 
         const commits = await gitUtils.getCommitAccordingPagination({
+            repositoryId,
             commitHash,
-            gitDir,
             skip,
             maxCount: limit,
         });
@@ -156,14 +148,12 @@ router.get(
 
         await utils.checkDir(targetDir);
 
-        const gitDir = utils.getGitDir(repositoryId);
-
-        const parent = await gitUtils.getParentCommit(commitHash, gitDir);
+        const parent = await gitUtils.getParentCommit(repositoryId, commitHash);
 
         gitUtils.diffStream({
+            repositoryId,
             parent,
             commitHash,
-            gitDir,
             res,
         });
     })
@@ -176,47 +166,50 @@ router.get(
 router.get(
     /^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/,
     utils.wrapRoute(async (req, res) => {
-        let { '0': repositoryId, '1': commitHash, '2': repoPath } = req.params;
 
+        let { '0': repositoryId, '1': commitHash, '2': repoPath } = req.params;
+        // let [ repositoryId, commitHash, repoPath ] = req.params;
         const targetDir = utils.getRepositoryPath(repositoryId);
 
-        await utils.checkDir(targetDir);
-        const gitDir = utils.getGitDir(repositoryId);
+        // Добавляем обработчик в очередь, так как тут делается checkout и pull,
+        // чтобы избежать race condition, когда одновременно придет несколько
+        // запросов на получение информации из разных веток одного репозитория,
+        // или из другого репозитория
+        await queue.push(async () => {
+            await utils.checkDir(targetDir);
 
-        let mainBranch = commitHash;
+            let mainBranch = commitHash;
 
-        if (!commitHash) {
-            mainBranch = await gitUtils.defineMainBranchName(gitDir);
-        }
+            if (!commitHash) {
+                mainBranch = await gitUtils.defineMainBranchName(repositoryId);
+            }
 
-        // TODO: сделать очередь,
-        // чтобы избежать конфликта, когда приходит другой запрос и выполняет чекаут на другую ветку,
-        // а гит лог первого выводит информацию не по запрашиваемой ветке
-        await gitUtils.checkout(mainBranch, gitDir);
+            await gitUtils.checkout(repositoryId, mainBranch);
 
-        // если хеш коммита - нельзя выполнить pull, чтобы получить последнее актуальное состояние
-        // получаем список веток и смотрим передали нам имя ветки или хеш коммита
-        const remoteBranches = await gitUtils.getAllRemoteBranches(gitDir);
+            // если хеш коммита - нельзя выполнить pull, чтобы получить последнее актуальное состояние
+            // получаем список веток и смотрим передали нам имя ветки или хеш коммита
+            const remoteBranches = await gitUtils.getAllRemoteBranches(repositoryId);
 
-        const isBranchName = remoteBranches.includes(mainBranch);
+            const isBranchName = remoteBranches.includes(mainBranch);
 
-        if (isBranchName) {
-            await gitUtils.pull(gitDir);
-        }
+            if (isBranchName) {
+                await gitUtils.pull(repositoryId);
+            }
 
-        repoPath = repoPath
-            ? repoPath.endsWith('/')
-                ? repoPath.slice(1)
-                : repoPath.slice(1) + '/'
-            : '';
+            repoPath = repoPath
+                ? repoPath.endsWith('/')
+                    ? repoPath.slice(1)
+                    : repoPath.slice(1) + '/'
+                : '';
 
-        const content = await gitUtils.getWorkingTree(
-            mainBranch,
-            repoPath,
-            gitDir
-        );
+            const content = await gitUtils.getWorkingTree(
+                repositoryId,
+                mainBranch,
+                repoPath
+            );
 
-        res.json({ content });
+            res.json({ content });
+        });
     })
 );
 
@@ -230,11 +223,9 @@ router.get(
 
         await utils.checkDir(targetDir);
 
-        const gitDir = utils.getGitDir(repositoryId);
+        await gitUtils.fetchOrigin(repositoryId);
 
-        await gitUtils.fetchOrigin();
-
-        const remoteBranches = await gitUtils.getAllRemoteBranches();
+        const remoteBranches = await gitUtils.getAllRemoteBranches(repositoryId);
 
         const isBranchName = remoteBranches.includes(commitHash);
 
@@ -243,15 +234,15 @@ router.get(
             : `${commitHash}:${pathToFile}`;
 
         gitUtils.showStream({
+            repositoryId,
             command,
-            gitDir,
             res,
         });
     })
 );
 
 router.use(function(err, req, res, next) {
-    console.log(err);
+    console.error(err);
 
     if (err instanceof NoDirectoryError) {
         res.status(400).json({

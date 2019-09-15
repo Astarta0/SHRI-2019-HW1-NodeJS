@@ -4,7 +4,8 @@ const fs = require('fs').promises;
 const { NoDirectoryError } = require('./errors');
 const APP_DATA = require('./appData');
 
-module.exports = {
+let utils = {};
+module.exports = utils = {
     getRepositoryPath(id) {
         return path.join(APP_DATA.FOLDER_PATH, '/', id);
     },
@@ -13,7 +14,9 @@ module.exports = {
         return path.join(APP_DATA.FOLDER_PATH, '/', repositoryPath, '/.git');
     },
 
-    defineGitDirParam: gitDir => (gitDir ? `--git-dir=${gitDir}` : ''),
+    getGitDirParam: repositoryId => `--git-dir=${utils.getGitDir(repositoryId)}`,
+
+    getWorkTreeParam: repositoryId => `--work-tree=${utils.getRepositoryPath(repositoryId)}`,
 
     async checkAndChangeDir(path) {
         const stats = await fs.stat(path);

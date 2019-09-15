@@ -2,7 +2,7 @@ const util = require('util');
 const child = require('child_process');
 
 const { NoAnyRemoteBranchesError } = require('./errors');
-const { pipe, defineGitDirParam, logify } = require('./utils');
+const { pipe, getGitDirParam, getWorkTreeParam, logify } = require('./utils');
 
 const exec = logify(util.promisify(child.exec));
 const spawn = logify(child.spawn);
@@ -11,27 +11,31 @@ const gitUtils = {
     clone: (url, targetDir) =>
         exec(`GIT_TERMINAL_PROMPT=0 git clone ${url} ${targetDir}`),
 
-    checkout: (commitHash, gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
-        return exec(`git ${gitDir} checkout ${commitHash}`);
+    checkout: (repositoryId, commitHash) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
+        return exec(`git ${gitDir} ${workTree} checkout ${commitHash}`);
     },
 
-    pull: (gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
-        return exec(`git ${gitDir} pull`);
+    pull: (repositoryId) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
+        return exec(`git ${gitDir} ${workTree} pull`);
     },
 
-    fetchOrigin: (gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
-        return exec(`git ${gitDir} fetch origin`);
+    fetchOrigin: (repositoryId) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
+        return exec(`git ${gitDir} ${workTree} fetch origin`);
     },
 
-    getCommits: async (commitHash, gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    getCommits: async (repositoryId, commitHash) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         // дата в timestamp, преобразование будет на стороне клиента
         const { stdout } = await exec(
-            `git ${gitDir} log ${commitHash} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`
+            `git ${gitDir} ${workTree} log ${commitHash} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`
         );
 
         const commits = stdout.match(/\{\n([\s\S]*?)\n\}/g);
@@ -53,15 +57,16 @@ const gitUtils = {
     },
 
     getCommitAccordingPagination: async ({
+        repositoryId,
         commitHash,
-        gitDir,
         skip,
         maxCount,
     }) => {
-        gitDir = defineGitDirParam(gitDir);
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         const { stdout } = await exec(
-            `git ${gitDir} rev-list ${commitHash} --skip=${skip} --max-count=${maxCount} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`
+            `git ${gitDir} ${workTree} rev-list ${commitHash} --skip=${skip} --max-count=${maxCount} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`
         );
         const commits = stdout.match(/\{\n([\s\S]*?)\n\}/g);
         if (!commits) {
@@ -81,19 +86,21 @@ const gitUtils = {
             }));
     },
 
-    getNumberAllCommits: async (commitHash, gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    getNumberAllCommits: async (repositoryId, commitHash) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
         let { stdout: total } = await exec(
-            `git ${gitDir} rev-list ${commitHash} --count`
+            `git ${gitDir} ${workTree} rev-list ${commitHash} --count`
         );
         return total.trim();
     },
 
-    getParentCommit: async (commitHash, gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    getParentCommit: async (repositoryId, commitHash) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         const { stdout: commitParent } = await exec(
-            `git ${gitDir} show ${commitHash} --pretty=format:'{%p}' --quiet`
+            `git ${gitDir} ${workTree} show ${commitHash} --pretty=format:'{%p}' --quiet`
         );
 
         // Проверяем есть ли у коммита родительский коммит
@@ -107,30 +114,33 @@ const gitUtils = {
             : `4b825dc642cb6eb9a060e54bf8d69288fbee4904`;
     },
 
-    defineMainBranchName: async (gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    defineMainBranchName: async (repositoryId) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         const { stdout: mainBranchName } = await exec(
-            `git ${gitDir} symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`
+            `git ${gitDir} ${workTree} symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`
         );
         if (!mainBranchName) throw new NoAnyRemoteBranchesError();
         return mainBranchName.trim();
     },
 
-    getAllRemoteBranches: async (gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    getAllRemoteBranches: async (repositoryId) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         let { stdout: remoteBranches } = await exec(
-            `git ${gitDir} branch --remotes --format='%(refname:lstrip=-1)' | grep -v '^HEAD$'`
+            `git ${gitDir} ${workTree} branch --remotes --format='%(refname:lstrip=-1)' | grep -v '^HEAD$'`
         );
         return remoteBranches.split('\n');
     },
 
-    getWorkingTree: async (commitHash, path = '', gitDir = '') => {
-        gitDir = defineGitDirParam(gitDir);
+    getWorkingTree: async (repositoryId, commitHash, path = '') => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
         const { stdout: stdoutLstree } = await exec(
-            `git ${gitDir} ls-tree ${commitHash} ${path}`
+            `git ${gitDir} ${workTree} ls-tree ${commitHash} ${path}`
         );
 
         return stdoutLstree
@@ -145,10 +155,11 @@ const gitUtils = {
             });
     },
 
-    diffStream: ({ parent, commitHash, gitDir = '', res }) => {
-        gitDir = defineGitDirParam(gitDir);
+    diffStream: ({ repositoryId, parent, commitHash, res }) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
-        const gitProcess = spawn('git', [ gitDir, 'diff', parent, commitHash ]);
+        const gitProcess = spawn('git', [ gitDir, workTree, 'diff', parent, commitHash ]);
 
         gitProcess.stderr.setEncoding('utf8');
         gitProcess.stdout.setEncoding('utf8');
@@ -169,10 +180,11 @@ const gitUtils = {
         });
     },
 
-    showStream: ({ command, gitDir = '', res }) => {
-        gitDir = defineGitDirParam(gitDir);
+    showStream: ({ repositoryId, command, res }) => {
+        const gitDir = getGitDirParam(repositoryId);
+        const workTree = getWorkTreeParam(repositoryId);
 
-        const gitProcess = spawn('git', [ gitDir, 'show', command ]);
+        const gitProcess = spawn('git', [ gitDir, workTree, 'show', command ]);
 
         gitProcess.stderr.setEncoding('utf8');
 
