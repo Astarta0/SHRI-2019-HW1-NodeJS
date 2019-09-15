@@ -98,7 +98,7 @@ router.get(
     '/:repositoryId/commits/:commitHash',
     utils.wrapRoute(async (req, res) => {
         const { repositoryId, commitHash } = req.params;
-        let { limit, offset } = req.query;
+        let { limit = 10, offset = 0 } = req.query;
 
         offset = offset < 0 ? 0 : offset;
 
@@ -130,10 +130,10 @@ router.get(
         });
 
         res.json({
-            commits,
             total: allCommitsNumber,
             limit,
             offset,
+            commits,
         });
     })
 );
