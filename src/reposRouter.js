@@ -70,19 +70,57 @@ router.delete('/:repositoryId',(req, res) => {
     });
 });
 
-// Возвращает массив коммитов в данной ветке (или хэше коммита) вместе с датами их создания.
-router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res) => {
+//Возвращает массив коммитов в данной ветке (или хэше коммита) вместе с датами их создания.
+// router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res) => {
+//     const { repositoryId, commitHash } = req.params;
+//     debugger;
+//
+//     const targetDir = utils.getRepositoryPath(repositoryId);
+//
+//     const gitDir = utils.getGitDir(repositoryId);
+//
+//     await utils.checkDir(targetDir);
+//
+//     const commits = await gitUtils.getCommits(commitHash, gitDir);
+//
+//     res.json({ commits });
+// }));
+
+// limit=10&offset=0
+// Пагинация по массиву коммитов
+router.get('/:repositoryId/commits/:commitHash?', utils.wrapRoute(async (req, res) => {
     const { repositoryId, commitHash } = req.params;
+    let { limit, offset } = req.query;
+    debugger;
+
+    offset = offset < 0 ? 0 : offset;
 
     const targetDir = utils.getRepositoryPath(repositoryId);
-
     const gitDir = utils.getGitDir(repositoryId);
 
     await utils.checkDir(targetDir);
 
-    const commits = await gitUtils.getCommits(commitHash, gitDir);
+    const allCommitsNumber = await gitUtils.getNumberAllCommits(commitHash, gitDir);
 
-    res.json({ commits });
+    const skip = offset * limit;
+    if (skip >= allCommitsNumber) {
+        // все просмотрели, больше не запрашиваем
+        res.json({
+            commits: [],
+            total: allCommitsNumber,
+            limit,
+            offset
+        });
+    }
+
+    const commits = await gitUtils.getCommitAccordingPagination({ commitHash, gitDir, skip, maxCount: limit });
+
+    res.json({
+        commits,
+        total: allCommitsNumber,
+        limit,
+        offset
+    });
 }));
 
 // Возвращает diff коммита в виде строки.

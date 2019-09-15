@@ -40,6 +40,27 @@ const gitUtils = {
             }));
         },
 
+    getCommitAccordingPagination: async ({ commitHash, gitDir, skip, maxCount }) => {
+        gitDir = defineGitDirParam(gitDir);
+
+        const { stdout } = await promisifyExec(`git ${gitDir} rev-list ${commitHash} --skip=${skip} --max-count=${maxCount} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`);
+        const commits = stdout.match(/\{\n([\s\S]*?)\n\}/g);
+        if (!commits) {
+            return [];
+        }
+
+        return commits.map(commit => commit.match(/\{\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n(.*?)\n\}/))
+            .map(([all, hash, subject, author, commiter, date]) => ({
+                hash, subject, author, commiter, date
+            }));
+    },
+
+    getNumberAllCommits: async (commitHash, gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+        let { stdout: total } = await promisifyExec(`git ${gitDir} rev-list ${commitHash} --count`);
+        return total.trim();
+    },
+
     getParentCommit: async (commitHash, gitDir = '') => {
         gitDir = defineGitDirParam(gitDir);
 
