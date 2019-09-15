@@ -70,7 +70,6 @@ router.delete('/:repositoryId',(req, res) => {
     });
 });
 
-// GET /api/repos/:repositoryId/commits/:commitHash
 // Возвращает массив коммитов в данной ветке (или хэше коммита) вместе с датами их создания.
 router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res) => {
     const { repositoryId, commitHash } = req.params;
@@ -86,7 +85,6 @@ router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res
     res.json({ commits });
 }));
 
-// GET /api/repos/:repositoryId/commits/:commitHash/diff
 // Возвращает diff коммита в виде строки.
 router.get('/:repositoryId/commits/:commitHash/diff', utils.wrapRoute(async (req, res) => {
     const { repositoryId, commitHash } = req.params;
@@ -152,14 +150,13 @@ router.get(/^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/, utils.wrapRoute(asyn
     res.json({ content });
 }));
 
-//GET /api/repos/:repositoryId/blob/:commitHash/:pathToFile
 // Возвращает содержимое конкретного файла, находящегося по пути pathToFile в ветке (или по хэшу коммита) branchName.
 router.get('/:repositoryId/blob/:commitHash/*', utils.wrapRoute(async (req, res) => {
     const { repositoryId, commitHash, '0': pathToFile } = req.params;
 
     const targetDir = utils.getRepositoryPath(repositoryId);
 
-    //await utils.checkDir(targetDir);
+    // await utils.checkDir(targetDir);
     await utils.checkAndChangeDir(targetDir);
 
     // const gitDir = utils.getGitDir(repositoryId);

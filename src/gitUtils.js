@@ -5,11 +5,7 @@ const promisifyExec = util.promisify(exec);
 const { NoAnyRemoteBranchesError } = require('./errors');
 const { pipe, defineGitDirParam } = require('./utils');
 
-//git --git-dir=/Users/astarta0/repos/differentBranchesRepository/.git log
-
 const gitUtils = {
-    // TODO https://serverfault.com/a/665959
-    // но у меня такое не воспроизводилось
     clone: (url, targetDir) => promisifyExec(`GIT_TERMINAL_PROMPT=0 git clone ${url} ${targetDir}`),
 
     checkout: (commitHash, gitDir = '') => {
