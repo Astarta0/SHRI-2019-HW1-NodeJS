@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs").promises;
 const rimraf = require('rimraf');
 const junk = require('junk');
+const Queue = require('better-queue');
 
 const { NoDirectoryError, NoAnyRemoteBranchesError } = require('./errors');
 const utils = require('./utils');
@@ -76,15 +77,11 @@ router.get('/:repositoryId/commits/:commitHash', utils.wrapRoute(async (req, res
 
     const targetDir = utils.getRepositoryPath(repositoryId);
 
-    // TODO: сделать очередь,
-    // чтобы избежать конфликта, когда приходит другой запрос и выполняет чекаут на другую ветку,
-    // а гит лог первого выводит информацию не по запрашиваемой ветке
+    const gitDir = utils.getGitDir(repositoryId);
 
-    await utils.checkAndChangeDir(targetDir);
+    await utils.checkDir(targetDir);
 
-    await gitUtils.checkout(commitHash);
-
-    const commits = await gitUtils.getCommits();
+    const commits = await gitUtils.getCommits(commitHash, gitDir);
 
     res.json({ commits });
 }));
@@ -96,13 +93,18 @@ router.get('/:repositoryId/commits/:commitHash/diff', utils.wrapRoute(async (req
 
     const targetDir = utils.getRepositoryPath(repositoryId);
 
+    // await utils.checkDir(targetDir);
+    // см вопрос в README
     await utils.checkAndChangeDir(targetDir);
 
-    const parent = await gitUtils.getParentCommit(commitHash);
+    const gitDir = utils.getGitDir(repositoryId);
+
+    const parent = await gitUtils.getParentCommit(commitHash, gitDir);
 
     gitUtils.diffStream({
         parent,
         commitHash,
+        gitDir,
         res
     });
 }));
@@ -117,31 +119,35 @@ router.get(/^\/([^\/]+)(?:\/tree(?:\/([^\/]+)(\/.*)?)?)?$/, utils.wrapRoute(asyn
 
     const targetDir = utils.getRepositoryPath(repositoryId);
 
-    await utils.checkAndChangeDir(targetDir);
+    await utils.checkDir(targetDir);
+    const gitDir = utils.getGitDir(repositoryId);
 
     let mainBranch = commitHash;
 
     if(!commitHash) {
-        mainBranch = await gitUtils.defineMainBranchName();
+        mainBranch = await gitUtils.defineMainBranchName(gitDir);
     }
 
-    await gitUtils.checkout(mainBranch);
+    // TODO: сделать очередь,
+    // чтобы избежать конфликта, когда приходит другой запрос и выполняет чекаут на другую ветку,
+    // а гит лог первого выводит информацию не по запрашиваемой ветке
+    await gitUtils.checkout(mainBranch, gitDir);
 
     // если хеш коммита - нельзя выполнить pull, чтобы получить последнее актуальное состояние
     // получаем список веток и смотрим передали нам имя ветки или хеш коммита
-    const remoteBranches = await gitUtils.getAllRemoteBranches();
+    const remoteBranches = await gitUtils.getAllRemoteBranches(gitDir);
 
     const isBranchName = remoteBranches.includes(mainBranch);
 
     if(isBranchName) {
-        await gitUtils.pull();
+        await gitUtils.pull(gitDir);
     }
 
     repoPath = repoPath ?
         repoPath.endsWith('/') ? repoPath.slice(1) : repoPath.slice(1) + '/'
         : '';
 
-    const content = await gitUtils.getWorkingTree(mainBranch, repoPath);
+    const content = await gitUtils.getWorkingTree(mainBranch, repoPath, gitDir);
 
     res.json({ content });
 }));
@@ -153,7 +159,11 @@ router.get('/:repositoryId/blob/:commitHash/*', utils.wrapRoute(async (req, res)
 
     const targetDir = utils.getRepositoryPath(repositoryId);
 
+    //await utils.checkDir(targetDir);
     await utils.checkAndChangeDir(targetDir);
+
+    // const gitDir = utils.getGitDir(repositoryId);
+
     await gitUtils.fetchOrigin();
 
     const remoteBranches = await gitUtils.getAllRemoteBranches();

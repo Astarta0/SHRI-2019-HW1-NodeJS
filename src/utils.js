@@ -10,6 +10,12 @@ module.exports = {
         return path.join(APP_DATA.FOLDER_PATH, '/', id);
     },
 
+    getGitDir(repositoryPath) {
+        return path.join(APP_DATA.FOLDER_PATH, '/', repositoryPath, '/.git');
+    },
+
+    defineGitDirParam: (gitDir) => gitDir ? `--git-dir='${gitDir}'` : '',
+
     async checkAndChangeDir(path) {
         const stats = await fs.stat(path);
 
@@ -18,6 +24,14 @@ module.exports = {
         }
 
         process.chdir(path);
+    },
+
+    async checkDir(path) {
+        const stats = await fs.stat(path);
+
+        if (!stats.isDirectory()) {
+            throw new NoDirectoryError();
+        }
     },
 
     pipe({ from, to, onStderrData, onStdoutError }) {

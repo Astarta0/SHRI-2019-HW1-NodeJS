@@ -3,18 +3,35 @@ const { exec, spawn } = require('child_process');
 const promisifyExec = util.promisify(exec);
 
 const { NoAnyRemoteBranchesError } = require('./errors');
-const { pipe } = require('./utils');
+const { pipe, defineGitDirParam } = require('./utils');
+
+//git --git-dir=/Users/astarta0/repos/differentBranchesRepository/.git log
 
 const gitUtils = {
     // TODO https://serverfault.com/a/665959
     // но у меня такое не воспроизводилось
     clone: (url, targetDir) => promisifyExec(`GIT_TERMINAL_PROMPT=0 git clone ${url} ${targetDir}`),
-    checkout: (commitHash) => promisifyExec(`git checkout ${commitHash}`),
-    pull: () => promisifyExec(`git pull`),
-    fetchOrigin: () => promisifyExec(`git fetch origin`),
-    getCommits: async () => {
+
+    checkout: (commitHash, gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+        return promisifyExec(`git ${gitDir} checkout ${commitHash}`)
+    },
+
+    pull: (gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+        return promisifyExec(`git ${gitDir} pull`);
+    },
+
+    fetchOrigin: (gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+        return promisifyExec(`git ${gitDir} fetch origin`);
+    },
+
+    getCommits: async (commitHash, gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+
         // дата в timestamp, преобразование будет на стороне клиента
-        const { stdout } = await promisifyExec(`git log --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`);
+        const { stdout } = await promisifyExec(`git ${gitDir} log ${commitHash} --pretty=format:'{%n%h%n%s%n%aN%n%cN%n%at%n}%n'`);
 
         const commits = stdout.match(/\{\n([\s\S]*?)\n\}/g);
         if (!commits) {
@@ -26,22 +43,34 @@ const gitUtils = {
                 hash, subject, author, commiter, date
             }));
         },
-    getParentCommit: async (commitHash) => {
-        const { stdout: commitParent } = await promisifyExec(`git show ${commitHash} --pretty=format:'{%p}' --quiet`);
+
+    getParentCommit: async (commitHash, gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+
+        const { stdout: commitParent } = await promisifyExec(`git ${gitDir} show ${commitHash} --pretty=format:'{%p}' --quiet`);
 
         return /\{.+\}/i.test(commitParent) ? `${commitHash}~` : `4b825dc642cb6eb9a060e54bf8d69288fbee4904`;
     },
-    defineMainBranchName: async () => {
-        const { stdout: mainBranchName } = await promisifyExec(`git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`);
+
+    defineMainBranchName: async (gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+
+        const { stdout: mainBranchName } = await promisifyExec(`git ${gitDir} symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'`);
         if (!mainBranchName) throw new NoAnyRemoteBranchesError();
         return mainBranchName.trim();
     },
-    getAllRemoteBranches: async () => {
-        let { stdout: remoteBranches } = await promisifyExec(`git branch --remotes --format='%(refname:lstrip=-1)' | grep -v '^HEAD$'`);
+
+    getAllRemoteBranches: async (gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+
+        let { stdout: remoteBranches } = await promisifyExec(`git ${gitDir} branch --remotes --format='%(refname:lstrip=-1)' | grep -v '^HEAD$'`);
         return remoteBranches.split('\n');
     },
-    getWorkingTree: async (commitHash, path = '') => {
-        const { stdout: stdoutLstree } = await promisifyExec(`git ls-tree ${commitHash} ${path}`);
+
+    getWorkingTree: async (commitHash, path = '', gitDir = '') => {
+        gitDir = defineGitDirParam(gitDir);
+
+        const { stdout: stdoutLstree } = await promisifyExec(`git ${gitDir} ls-tree ${commitHash} ${path}`);
 
         return stdoutLstree.split('\n').filter(str => str).map(str => {
             const [, type,, name] = str.split(/\s/g);
@@ -51,8 +80,12 @@ const gitUtils = {
             };
         });
     },
-    diffStream: ({ parent, commitHash, res }) => {
-        const gitProcess = spawn('git', ['diff', parent, commitHash ]);
+
+    diffStream: ({ parent, commitHash, gitDir='', res }) => {
+        // gitDir = defineGitDirParam(gitDir);
+
+        //const gitProcess = spawn('git', [ gitDir, 'diff', parent, commitHash ]);
+        const gitProcess = spawn('git', [ 'diff', parent, commitHash ]);
 
         gitProcess.stderr.setEncoding('utf8');
         gitProcess.stdout.setEncoding('utf8');
@@ -72,8 +105,12 @@ const gitUtils = {
             }
         });
     },
-    showStream: ({ command, res }) => {
-        const gitProcess = spawn('git', ['show', command]);
+
+    showStream: ({ command, gitDir = '', res }) => {
+        gitDir = defineGitDirParam(gitDir);
+
+        // const gitProcess = spawn('git', [ gitDir, 'show', command ]);
+        const gitProcess = spawn('git', [ 'show', command ]);
 
         gitProcess.stderr.setEncoding('utf8');
 
