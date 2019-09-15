@@ -168,7 +168,7 @@ router.get(
     utils.wrapRoute(async (req, res) => {
 
         let { '0': repositoryId, '1': commitHash, '2': repoPath } = req.params;
-        // let [ repositoryId, commitHash, repoPath ] = req.params;
+
         const targetDir = utils.getRepositoryPath(repositoryId);
 
         // Добавляем обработчик в очередь, так как тут делается checkout и pull,
