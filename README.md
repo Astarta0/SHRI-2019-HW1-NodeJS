@@ -19,6 +19,7 @@
 - [junk](https://www.npmjs.com/package/junk) - отфильтровывает скрытые файлы
 - [body-parser](https://www.npmjs.com/package/body-parser) - чтобы разбирать параметры в request body
 - [better-queue](https://www.npmjs.com/package/better-queue) - для создания очередей (на момент написания просто установлена - еще не сделано, в TODO)
+- [Prettier](https://prettier.io) - выравнивание код-стайла
 
 - [x] При клонировании репозитория в команду добавлен параметр GIT_TERMINAL_PROMPT=0,
 как советовали [тут](https://serverfault.com/a/665959), чтобы не было ожидания пользовательского ввода при попытке склонировать несуществующий репозиторий.
