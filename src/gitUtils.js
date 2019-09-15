@@ -14,7 +14,7 @@ const gitUtils = {
     checkout: (repositoryId, commitHash) => {
         const gitDir = getGitDirParam(repositoryId);
         const workTree = getWorkTreeParam(repositoryId);
-        return exec(`git ${gitDir} ${workTree} checkout ${commitHash}`);
+        return exec(`git ${gitDir} ${workTree} checkout --force ${commitHash}`);
     },
 
     pull: (repositoryId) => {
