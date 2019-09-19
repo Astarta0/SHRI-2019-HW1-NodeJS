@@ -1,5 +1,4 @@
 .history {
-
     &__day {
         margin-top: var(--space-xl);
     }
@@ -51,6 +50,10 @@
         }
     }
 
+    &__codeIcon {
+        display: none;
+    }
+
     &:last-child {
         .historyPoint__icon {
             &::after {
@@ -61,6 +64,7 @@
 
     &__details {
         display: flex;
+        flex-grow: 1;
         flex-direction: column;
         align-items: flex-start;
         padding-bottom: 18px;
@@ -84,4 +88,32 @@
         font-weight: 500;
     }
 
+    &__commitColumn, &__iconColumn {
+        flex-basis: 10%;
+        text-align: end;
+    }
+
 }
+
+@media (max-width: 960px) {
+    .historyPoint {
+
+        &__details {
+            div:first-child {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        &__codeIcon {
+            display: block;
+        }
+
+        &__commitColumn, &__iconColumn {
+            display: none;
+        }
+
+    }
+}
+
