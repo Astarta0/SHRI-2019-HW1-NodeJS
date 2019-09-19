@@ -70,12 +70,6 @@
         margin-right: var(--space-xs);
     }
 
-    &__committerEmail {
-        &::first-letter {
-            color: var(--accent-red-color);
-        }
-    }
-
     &__committerName {
         display: none;
         margin-left: 4px;

@@ -16,12 +16,7 @@
     }
 
     &__person {
-        cursor: pointer;
         display: inline-block;
-
-        &::first-letter{
-            color: var(--accent-red-color);
-        }
     }
 
     &__branchSelector {
