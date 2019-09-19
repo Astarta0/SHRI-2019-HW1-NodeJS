@@ -5,11 +5,13 @@
 @import './breadcrumbs/breadcrumbs.css';
 @import './info/info.css';
 @import './tabs/tabs.css';
+@import './history/history.css';
 
 @import './table/table.css';
 @import './tableRow/tableRow.css';
 
 @import './link/link.css';
+@import './committer/committer.css';
 
 /* иконки */
 @import './icon/icon.css';

@@ -1,0 +1,87 @@
+.history {
+
+    &__day {
+        margin-top: var(--space-xl);
+    }
+}
+
+.day {
+    &__title {
+        font-weight: 500;
+        color: var(--inactive-text);
+        font-size: var(--font-size-m);
+        line-height: var(--font-size-m);
+    }
+
+    &__content {
+        padding-top: var(--space-m);
+    }
+}
+
+.historyIcon {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--blue-bg-color);
+    border: var(--space-xxxs) solid var(--white);
+}
+
+.historyPoint {
+    display: flex;
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-s);
+
+    &__icon {
+        flex-shrink: 0;
+        margin-right: var(--space-s);
+        position: relative;
+
+
+        &::after {
+            position: absolute;
+            right: 50%;
+            content: '';
+            width: 2px;
+            height: 100%;
+            z-index: -1;
+            background-color: var(--light-gray-text);
+        }
+    }
+
+    &:last-child {
+        .historyPoint__icon {
+            &::after {
+                top: -100%;
+            }
+        }
+    }
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 18px;
+    }
+
+    &__description {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    &__committer, &__time, &__committerEmail {
+        color: var(--branch-selector-commit-color);
+    }
+
+    &__committerEmail {
+        display: inline-block;
+    }
+
+    &__title {
+        color: var(--text);
+        font-weight: 500;
+    }
+
+}
