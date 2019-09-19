@@ -3,3 +3,10 @@
     height: 48px;
     border-bottom: 1px var(--separator) solid;
 }
+
+@media (max-width: 960px) {
+    .row {
+        flex-wrap: wrap;
+        height: auto;
+    }
+}

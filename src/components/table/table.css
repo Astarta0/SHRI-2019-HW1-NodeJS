@@ -53,8 +53,9 @@
         &_committer {
             flex-basis: 20%;
 
-            p::first-letter {
-                color: var(--accent-red-color);
+            p {
+                margin-top: 0;
+                margin-bottom: 0;
             }
         }
 
@@ -68,9 +69,98 @@
     &__icon {
         margin-right: var(--space-xs);
     }
+
+    &__committerEmail {
+        &::first-letter {
+            color: var(--accent-red-color);
+        }
+    }
+
+    &__committerName {
+        display: none;
+        margin-left: 4px;
+    }
+
+    &__arrowButton {
+        display: none;
+    }
 }
 
-/*@media (max-width: 960px) {
-    .table {
+@media (max-width: 960px) {
+    .cell {
+        height: 34px;
+
+        &__folderName {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        &__committerEmail {
+            display: none;
+        }
+
+        &__committerName {
+            display: block;
+        }
+
+        &__arrowButton {
+            display: inline-block;
+            transform: translateY(-40%);
+            position: absolute;
+            top: 50%;
+            right: 0;
+        }
     }
-}*/
+
+    .table {
+        &__header {
+            display: none;
+        }
+
+
+        &__cell {
+            flex-basis: 100%;
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+
+            & + & {
+                margin-left: 0;
+            }
+
+
+            /* mobile */
+            &_name {
+                order: 1;
+            }
+
+            &_message {
+                position: relative;
+                order: 2;
+            }
+
+            &_commit {
+                flex-basis: auto;
+                order: 3;
+            }
+
+            &_committer {
+                flex-basis: auto;
+                order: 4;
+            }
+
+            &_updated {
+                order: 5;
+                flex-basis: auto;
+            }
+        }
+    }
+}
+

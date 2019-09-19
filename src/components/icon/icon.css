@@ -1,26 +1,21 @@
 .icon {
     background-position: center;
     background-repeat: no-repeat;
+    height: 20px;
+    width: 9px;
+    background-size: contain;
 
     &_folder {
-        height: 20px;
         width: 12px;
 
         background-image: url(../../assets/folder_icon.svg);
     }
 
     &_file_code {
-        height: 20px;
-        width: 9px;
-
         background-image: url(../../assets/file_code_icon.svg);
     }
 
     &_file_simple {
-        height: 20px;
-        width: 9px;
-
         background-image: url(../../assets/file_simple_icon.svg);
     }
-
 }

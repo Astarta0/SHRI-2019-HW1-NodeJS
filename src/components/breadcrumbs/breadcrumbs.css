@@ -1,7 +1,9 @@
 .breadcrumbs {
     display: flex;
     align-items: center;
-    height: 42px;
+    box-sizing: border-box;
+    padding: var(--space-s) 0;
+    min-height: 42px;
     border-bottom: 1px var(--separator) solid;
 
     &__item {
@@ -16,12 +18,24 @@
             font-weight: 500;
         }
 
-        & + &:before {
+        &:after {
             cursor: default;
             display: block;
             content: '/';
             margin: 0 var(--space-s);
         }
-    }
 
+        &:last-child {
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+@media (max-width: 960px) {
+    .breadcrumbs {
+        min-height: 40px;
+        flex-wrap: wrap;
+    }
 }

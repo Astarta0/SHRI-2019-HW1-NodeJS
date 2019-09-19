@@ -19,5 +19,12 @@ body {
 
 main {
     padding: 0 var(--space-xxl);
-    min-height: calc(100vh - var(--footer-height) - var(--header-height));
+    min-height: calc(100vh - var(--footer-height) - var(--header-height-desktop));
 }
+
+@media (max-width: 960px) {
+    main {
+        padding: 0 var(--space-m);
+    }
+}
+

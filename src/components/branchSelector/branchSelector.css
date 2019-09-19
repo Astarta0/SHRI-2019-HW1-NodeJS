@@ -134,10 +134,6 @@
             color: var(--selected-desc-text);
         }
     }
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .selectItem {
@@ -151,4 +147,11 @@
     }
 }
 
+@media (max-width: 960px) {
+    .branchSelector {
+        &__label {
+            font-size: var(--font-size-l);
+        }
+    }
+}
 
