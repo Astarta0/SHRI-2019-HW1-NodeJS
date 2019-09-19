@@ -1,0 +1,30 @@
+.info {
+    height: 78px;
+    padding-top: 1px;
+
+    &__title {
+        margin: var(--space-s) 0 var(--space-xs);
+        font-size: var(--font-size-xl);
+        line-height: var(--line-height-xl);
+
+        display: flex;
+        align-items: center;
+
+
+        p {
+            font-weight: bold;
+        }
+    }
+
+    &__person {
+        cursor: pointer;
+
+        &::first-letter{
+            color: var(--accent-red-color);
+        }
+    }
+
+    &__branchSelector {
+        margin-left: var(--space-xxs);
+    }
+}

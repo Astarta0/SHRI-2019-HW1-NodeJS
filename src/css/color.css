@@ -1,0 +1,20 @@
+:root {
+    --white: #FFFFFF;
+    --light-gray-border-color: #F0F2F3;
+    --light-gray-select-border-color: #E5E5E5;
+    --purple-border-color: #9A77FF;
+    --separator: #E5E5E5;
+    --red-border-color: #FF4F49;
+    --accent-red-color: #FF3029;
+    --light-gray-text: #B8BEC3;
+    --inactive-text: #7F8285;
+    --dark-gray: #4F4F4F;
+    --branch-selector-commit-color: #434445;
+    --selected-title-text: #F2F2F2;
+    --selected-desc-text: #E0E0E0;
+    --scroll-tumb-color: #C1C1C1;
+    --text: black;
+    --link-color: #1774E9;
+    --hover-link-color: #175fc4;
+    --active-link-color: #15376e;
+}

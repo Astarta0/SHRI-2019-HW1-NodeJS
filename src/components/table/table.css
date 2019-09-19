@@ -1,0 +1,76 @@
+@import '../../css/breakpoints.css';
+
+.table {
+    display: flex;
+    flex-direction: column;
+
+    &__header {
+        display: flex;
+        height: 44px;
+        border-bottom: 1px var(--separator) solid;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__cell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &:first-child {
+            padding-left: var(--space-xs);
+        }
+
+        &:last-child {
+            padding-right: var(--space-xs);
+            justify-content: flex-end;
+        }
+
+        & + & {
+            margin-left: var(--space-xxl);
+        }
+
+        &_header {
+            color: var(--light-gray-text);
+            font-weight: 500;
+        }
+
+        &_name {
+            flex-basis: 20%;
+        }
+
+        &_commit {
+            flex-basis: 100px;
+        }
+
+        &_message {
+            flex: 1;
+        }
+
+        &_committer {
+            flex-basis: 20%;
+
+            p::first-letter {
+                color: var(--accent-red-color);
+            }
+        }
+
+        &_updated {
+            flex-basis: 120px;
+        }
+    }
+}
+
+.cell {
+    &__icon {
+        margin-right: var(--space-xs);
+    }
+}
+
+/*@media (max-width: 960px) {
+    .table {
+    }
+}*/

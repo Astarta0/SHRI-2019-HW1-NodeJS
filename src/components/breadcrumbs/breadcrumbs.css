@@ -1,0 +1,27 @@
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    height: 42px;
+    border-bottom: 1px var(--separator) solid;
+
+    &__item {
+        display: flex;
+        cursor: pointer;
+        color: var(--inactive-text);
+        font-size: var(--font-size-s);
+        line-height: var(--line-height-s);
+
+        &_active {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        & + &:before {
+            cursor: default;
+            display: block;
+            content: '/';
+            margin: 0 var(--space-s);
+        }
+    }
+
+}

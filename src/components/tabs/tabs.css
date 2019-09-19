@@ -1,0 +1,34 @@
+.tabs {
+    display: flex;
+    height: 40px;
+    border-bottom: 1px var(--separator) solid;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        position: relative;
+        color: var(--inactive-text);
+        font-size: var(--font-size-m);
+        line-height: var(--line-height-m);
+        text-transform: uppercase;
+        cursor: pointer;
+
+        & + & {
+            margin-left: 32px;
+        }
+
+        &_active {
+            color: var(--text);
+
+            &:after {
+                content: "";
+                position: absolute;
+                height: 3px;
+                bottom: -1px;
+                left: 0;
+                right: 0;
+                background-color: red;
+            }
+        }
+    }
+}

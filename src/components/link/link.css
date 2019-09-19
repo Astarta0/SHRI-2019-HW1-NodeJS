@@ -1,0 +1,13 @@
+.link {
+    color: var(--link-color);
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        color: var(--hover-link-color);
+    }
+
+    &:active {
+        color: var(--active-link-color);
+    }
+}

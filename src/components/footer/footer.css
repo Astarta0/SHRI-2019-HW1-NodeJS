@@ -1,0 +1,20 @@
+.footer {
+    height: var(--footer-height);
+    display: flex;
+    align-items: center;
+
+    color: var(--inactive-text);
+    padding: 0 var(--space-l);
+
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+
+    &__version {
+        margin-left: auto;
+    }
+
+    &__copyright {
+        margin-left: var(--space-xxl);
+    }
+}
+

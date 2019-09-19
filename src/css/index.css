@@ -1,0 +1,23 @@
+@import './color.css';
+@import './space.css';
+@import './font.css';
+@import './variables.css';
+
+html {
+    font-family: "YS Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-s);
+}
+
+main {
+    padding: 0 var(--space-xxl);
+    min-height: calc(100vh - var(--footer-height) - var(--header-height));
+}

@@ -1,0 +1,5 @@
+.row {
+    display: flex;
+    height: 48px;
+    border-bottom: 1px var(--separator) solid;
+}

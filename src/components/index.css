@@ -1,0 +1,15 @@
+@import './header/header.css';
+@import './footer/footer.css';
+@import './dropDown/dropDown.css';
+@import './branchSelector/branchSelector.css';
+@import './breadcrumbs/breadcrumbs.css';
+@import './info/info.css';
+@import './tabs/tabs.css';
+
+@import './table/table.css';
+@import './tableRow/tableRow.css';
+
+@import './link/link.css';
+
+/* иконки */
+@import './icon/icon.css';

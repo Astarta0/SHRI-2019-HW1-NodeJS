@@ -1,0 +1,92 @@
+.dropDown {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    cursor: pointer;
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-s);
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        left: 100%;
+        margin-left: var(--space-xxs);
+        transition: transform 0.33s linear;
+        background-image: url(../../assets/expand_arrow_down.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    &__label {
+        font-weight: 500;
+    }
+
+    &__select {
+        display: none;
+
+        ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+                list-style: none;
+            }
+        }
+    }
+
+    &_expanded {
+        &::after {
+            transform: rotate(180deg);
+        }
+
+        .dropDown__select {
+            display: block;
+        }
+    }
+}
+
+.select {
+    min-width: 266px;
+    height: 124px;
+    padding: 14px 22px 18px;
+    box-sizing: border-box;
+
+    position: absolute;
+    top: calc(100% + 18px);
+
+    overflow-y: scroll;
+    z-index: 1;
+
+    font-size: var(--font-size-s);
+    line-height: var(--line-height-s);
+
+    background-color: var(--white);
+    box-shadow: 0 4px 16px rgba(53, 73, 93, 0.2);
+
+    &__item {
+        height: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+
+        & + & {
+            margin-top: var(--space-m);
+        }
+
+        &:hover {
+            color: var(--inactive-text);
+        }
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+

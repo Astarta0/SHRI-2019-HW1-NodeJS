@@ -1,0 +1,8 @@
+:root {
+    --header-height: 56px;
+    --footer-height: 50px;
+
+    --breakpoint-s: 360px;
+    --breakpoint-m: 960px;
+    --breakpoint-l: 1440px;
+}
