@@ -6,7 +6,6 @@
 
 .day {
     &__title {
-        font-weight: 500;
         color: var(--inactive-text);
         font-size: var(--font-size-m);
         line-height: var(--font-size-m);
@@ -93,7 +92,6 @@
 
     &__title {
         color: var(--text);
-        font-weight: 500;
     }
 
     &__commitColumn, &__iconColumn {
@@ -116,6 +114,10 @@
 
         &__codeIcon {
             display: block;
+
+            &_hidden {
+                display: none;
+            }
         }
 
         &__commitColumn, &__iconColumn {

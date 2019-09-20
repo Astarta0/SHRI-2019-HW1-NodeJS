@@ -1,0 +1,17 @@
+.button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+
+    &__icon_right_s {
+        margin-right: 6px;
+    }
+
+    &_center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

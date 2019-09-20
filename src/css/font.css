@@ -36,3 +36,13 @@
     font-weight: 700;
     font-style: normal;
 }
+
+.font {
+    &_medium {
+        font-weight: 500;
+    }
+
+    &_bold {
+        font-weight: bold;
+    }
+}

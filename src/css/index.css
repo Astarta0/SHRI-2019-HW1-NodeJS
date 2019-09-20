@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Mono&display=swap&subset=cyrillic');
+
+@import '../../node_modules/highlight.js/styles/github-gist.css';
+
 @import './color.css';
 @import './space.css';
 @import './font.css';
+@import './text.css';
 @import './variables.css';
+@import './shuffle.css';
+@import './container.css';
 
 html {
     font-family: "YS Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -22,9 +29,16 @@ main {
     min-height: calc(100vh - var(--footer-height) - var(--header-height-desktop));
 }
 
+code, pre {
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: 'PT Mono', monospace;
+}
+
 @media (max-width: 960px) {
     main {
         padding: 0 var(--space-m);
+        overflow-x: hidden;
     }
 }
 

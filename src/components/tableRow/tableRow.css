@@ -2,6 +2,14 @@
     display: flex;
     height: 48px;
     border-bottom: 1px var(--separator) solid;
+
+    &_justify_space-between {
+        justify-content: space-between;
+    }
+
+    &_relative {
+        position: relative;
+    }
 }
 
 @media (max-width: 960px) {

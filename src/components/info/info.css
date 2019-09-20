@@ -1,5 +1,5 @@
 .info {
-    height: 66px;
+    min-height: 66px;
 
     &__title {
         margin: var(--space-s) 0 var(--space-xs);
@@ -9,10 +9,24 @@
         display: flex;
         align-items: center;
 
-
         p {
             font-weight: bold;
         }
+
+        &_space_between {
+            justify-content: space-between;
+        }
+    }
+
+    &__buttonBack {
+        display: none;
+    }
+
+    &__buttonToFiles {
+        height: auto;
+        border-radius: 4px;
+        padding: var(--space-xs) var(--space-s);
+        background-color: var(--button-bg-color);
     }
 
     &__person {
@@ -33,10 +47,24 @@
         &__title {
             font-size: var(--font-size-l);
             margin-bottom: var(--space-xxs);
+
+            &_space_between {
+                flex-wrap: wrap;
+            }
         }
 
         &__description {
             padding-right: var(--space-xxxl);
+        }
+
+        &__buttonBack {
+            display: flex;
+        }
+    }
+
+    .infoTitle{
+        &__mainText {
+            margin-top: var(--space-s);
         }
     }
 }

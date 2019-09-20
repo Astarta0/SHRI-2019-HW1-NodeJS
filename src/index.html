@@ -6,24 +6,228 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Яндекс.Арканум</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/index.css">
+
     <link rel="stylesheet" href="components/index.css">
+    <link rel="stylesheet" href="css/index.css">
+
+
+    <link rel="component" href="src/components/header/header.html">
+    <link rel="component" href="src/components/footer/footer.html">
+    <link rel="component" href="src/components/dropDown/dropDown.html">
+    <link rel="component" href="src/components/branchSelector/branchSelector.html">
+    <link rel="component" href="src/components/breadcrumbs/breadcrumbs.html">
+    <link rel="component" href="src/components/info/info.html">
+    <link rel="component" href="src/components/tabs/tabs.html">
+    <link rel="component" href="src/components/table/table.html">
+    <link rel="component" href="src/components/table/tableHead.html">
+    <link rel="component" href="src/components/table/tableHeadCell.html">
+    <link rel="component" href="src/components/table/tableBody.html">
+    <link rel="component" href="src/components/table/tableRow.html">
+    <link rel="component" href="src/components/table/tableCell.html">
+    <link rel="component" href="src/components/table/tableNameCell.html">
+    <link rel="component" href="src/components/table/tableCommitCell.html">
+    <link rel="component" href="src/components/table/tableMessageCell.html">
+    <link rel="component" href="src/components/table/tableCommitterCell.html">
+    <link rel="component" href="src/components/table/tableUpdatedCell.html">
+    <link rel="component" href="src/components/tableRow/tableRow.html"> <!-- remove me -->
+    <link rel="component" href="src/components/code-frame/code-frame.html">
+    <link rel="component" href="src/components/code-frame/codeFrameHeader/codeFrameHeader.html">
+    <link rel="component" href="src/components/code-frame/commit-code-frame.html">
+
+    <link rel="component" href="src/components/table/tableCommitterEmail.html">
+    <link rel="component" href="src/components/table/tableCommitterName.html">
+    <link rel="component" href="src/components/table/rightArrowButton.html">
+    <link rel="component" href="src/components/icon/icon.html">
+
+
 </head>
 
 <body>
 
-<include src="src/components/header/header.html"></include>
+<Header></Header>
 <main>
-    <include src="src/components/breadcrumbs/breadcrumbs.html"></include>
-    <include src="src/components/info/info.html"></include>
-    <include src="src/components/tabs/tabs.html"></include>
-    <!-- <include src="src/components/table/table.html"></include> -->
-     <include src="src/components/history/history.html"></include>
+    <Breadcrumbs>README.md</Breadcrumbs>
+    <Info>
+        <div class="info__title font font_medium">
+            <span>arcadia</span>
+            <BranchSelector></BranchSelector>
+        </div>
+        <div class="info__description">
+            Last commit
+            <a class="link">c4d248</a>
+            on
+            <a class="link">20 Oct 2017, 12:24</a>
+            by
+            <a class="info__person committer committer_email">
+                robot-srch-releaser
+            </a>
+        </div>
+    </Info>
+    <Tabs></Tabs>
+    <Table>
+        <TableHead>
+            <TableHeadCell class="table__cell_name asd">Name</TableHeadCell>
+            <TableHeadCell class="table__cell_commit">Last commit</TableHeadCell>
+            <TableHeadCell class="table__cell_message">Commit message</TableHeadCell>
+            <TableHeadCell class="table__cell_committer">Committer</TableHeadCell>
+            <TableHeadCell class="table__cell_updated">Updated</TableHeadCell>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableNameCell>
+                    <Icon class="cell__icon icon_folder"></Icon>
+                    <span class="cell__folderName cell__folderName_font_medium">
+                    api
+                    </span>
+                </TableNameCell>
+                <TableCommitCell>9a8ecbd3</TableCommitCell>
+                <TableMessageCell>
+                    <a class="link">ARCADIA-771</a> test for empty commit message
+                </TableMessageCell>
+                <!-- -->
+                <TableCommitterCell>
+                    <TableCommitterEmail>
+                        noxomo
+                    </TableCommitterEmail>
+                    <TableCommitterName>
+                        by Ivan Pupkin,
+                    </TableCommitterName>
+                </TableCommitterCell>
+                <!-- -->
+                <TableUpdatedCell>
+                    <span class="cell__apdateData">4s ago</span>
+                </TableUpdatedCell>
+            </TableRow>
+
+            <TableRow>
+                <TableNameCell>
+                    <Icon class="cell__icon icon_file_code"></Icon>
+                    <span class="cell__folderName">
+                    README.md
+                    </span>
+                </TableNameCell>
+                <TableCommitCell>9a8ecbd3</TableCommitCell>
+                <TableMessageCell>
+                    [vcs] add readme
+                </TableMessageCell>
+                <!-- -->
+                <TableCommitterCell>
+                    <TableCommitterEmail>
+                        noxomo
+                    </TableCommitterEmail>
+                    <TableCommitterName>
+                        by Ivan Pupkin,
+                    </TableCommitterName>
+                </TableCommitterCell>
+                <!-- -->
+                <TableUpdatedCell>
+                    <span class="cell__apdateData">Yesterday, 14:50</span>
+                </TableUpdatedCell>
+            </TableRow>
+
+            <TableRow>
+                <TableNameCell>
+                    <Icon class="cell__icon icon_file_simple"></Icon>
+                    <span class="cell__folderName">
+                    ya.make
+                    </span>
+                </TableNameCell>
+                <TableCommitCell>9a8ecbd3</TableCommitCell>
+                <TableMessageCell>
+                    [vcs] add readme
+                </TableMessageCell>
+                <!-- -->
+                <TableCommitterCell>
+                    <TableCommitterEmail>
+                        annaveronika
+                    </TableCommitterEmail>
+                    <TableCommitterName>
+                        by Ivan Pupkin,
+                    </TableCommitterName>
+                </TableCommitterCell>
+                <!-- -->
+                <TableUpdatedCell>
+                    <span class="cell__apdateData">Dec 29, 2017</span>
+                </TableUpdatedCell>
+            </TableRow>
+
+        </TableBody>
+    </Table>
+
+
+    <br>
+    <hr><hr>
+    <br>
+
+
+    <!-- Branches table -->
+    <Table>
+        <TableHead class="table__header_justify_space-between">
+            <TableHeadCell class="table__cell_name">Name</TableHeadCell>
+            <TableHeadCell class="table__cell_commit">Commit hash</TableHeadCell>
+        </TableHead>
+        <TableBody>
+            <TableRow class="row_justify_space-between row_relative">
+                <TableNameCell class="table__cell_full">
+                    <!--   <span class="cell__icon icon icon_file_code"></span> -->
+                    <Icon class="cell__icon icon_branch"></Icon>
+                    <span class="cell__folderName cell__folderName_font_medium ">
+                    trunk
+                    </span>
+                    <RightArrowButton></RightArrowButton>
+                </TableNameCell>
+                <TableCommitCell>9a8ecbd39a8ecbd39a8ecbd3</TableCommitCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+
+    <include src="src/components/history/history.html"></include>
+
+    <CodeFrame><include src="src/code/python.html" /></CodeFrame>
+
+
+    <br>
+    <hr><hr>
+    <br>
+
+    <!-- Страница коммита 3 -->
+    <Info>
+        <div class="info__title info__title_space_between font font_medium">
+            <span class="shuffle shuffle_mobile_3 infoTitle__mainText">DEVTOOLS-4599: Add option to add extra whitespace between projects</span>
+            <button class="button button_center info__buttonToFiles shuffle_mobile_2">
+                <svg class="button__icon button__icon_right_s" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.07 1.77a.3.3 0 0 0 .3-.3V.66c0-.16-.15-.3-.3-.3H.3a.3.3 0 0 0-.3.3v.8c0 .19.13.31.3.31h10.77zm0 4.07a.3.3 0 0 0 .3-.3v-.82c0-.15-.15-.3-.3-.3H.3a.3.3 0 0 0-.3.3v.81c0 .18.13.3.3.3h10.77zm0 4.06a.3.3 0 0 0 .3-.3v-.82c0-.15-.15-.3-.3-.3H.3a.3.3 0 0 0-.3.3v.81c0 .18.13.3.3.3h10.77z" fill="#000"/>
+                </svg>
+                <span class="text text_button_s ">Show files at r4318347</span>
+            </button>
+
+            <button class="button button_center info__buttonBack shuffle_mobile_1">
+                <svg class="button__icon button__icon_right_s" width="7" height="13" viewBox="0 0 7 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.32 12.71l.54-.52c.11-.14.11-.35 0-.46L1.91 6.75 6.86 1.8c.11-.1.11-.33 0-.46L6.32.82a.31.31 0 0 0-.47 0L.11 6.53C0 6.67 0 6.86.1 7l5.74 5.71c.14.14.33.14.47 0z" fill="#7F8285"/>
+                </svg>
+                <span class="text text_inactive text_button_s">Back</span>
+            </button>
+        </div>
+
+        <div class="info__description">
+            <a class="link">c4d248</a>
+            on
+            <a class="link">20 Oct 2017, 12:24</a>
+            by
+            <a class="info__person committer committer_email">
+                robot-srch-releaser
+            </a>
+        </div>
+    </Info>
+
+    <CommitCodeFrame><include src="src/code/python.html" /></CommitCodeFrame>
+
+
+
 </main>
-<include src="src/components/footer/footer.html"></include>
+<Footer></Footer>
 
-
-<!--<script src="client.js"></script>-->
+<script src="client.js"></script>
 
 </body>
 </html>

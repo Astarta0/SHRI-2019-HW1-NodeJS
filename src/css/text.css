@@ -1,0 +1,18 @@
+.text {
+    &_inactive {
+        color: var(--inactive-text);
+    }
+
+    &_green {
+        color: var(--accent-green-color);
+    }
+
+    &_red {
+        color: var(--accent-red-color);
+    }
+
+    &_button_s {
+        font-size: 13px;
+        line-height: 15px;
+    }
+}

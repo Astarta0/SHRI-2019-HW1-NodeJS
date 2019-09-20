@@ -8,6 +8,10 @@
         display: flex;
         height: 44px;
         border-bottom: 1px var(--separator) solid;
+
+        &_justify_space-between {
+            justify-content: space-between;
+        }
     }
 
     &__content {
@@ -35,7 +39,6 @@
 
         &_header {
             color: var(--light-gray-text);
-            font-weight: 500;
         }
 
         &_name {
@@ -66,6 +69,12 @@
 }
 
 .cell {
+    &__folderName {
+        &_font_medium {
+            font-weight: 500;
+        }
+    }
+
     &__icon {
         margin-right: var(--space-xs);
     }
@@ -98,6 +107,10 @@
             display: block;
         }
 
+        &__apdateData {
+            margin-left: var(--space-xxs);
+        }
+
         &__arrowButton {
             display: inline-block;
             transform: translateY(-40%);
@@ -112,7 +125,6 @@
             display: none;
         }
 
-
         &__cell {
             flex-basis: 100%;
 
@@ -124,11 +136,6 @@
                 padding-right: 0;
                 justify-content: flex-start;
             }
-
-            & + & {
-                margin-left: 0;
-            }
-
 
             /* mobile */
             &_name {
@@ -153,6 +160,10 @@
             &_updated {
                 order: 5;
                 flex-basis: auto;
+            }
+
+            & + & {
+                margin-left: 0;
             }
         }
     }
