@@ -30,7 +30,6 @@
 
     &__content {
         display: flex;
-        padding: 12px 0;
     }
 
     &__lines {
@@ -59,6 +58,16 @@
 
     &__commitDiffCount {
         width: 80px;
+    }
+
+    &__controls {
+        height: 28px;
+        background-color: var(--light-blue-bg-color);
+    }
+
+    &__aboveLinesIcon {
+        position: relative;
+        top: -2px;
     }
 }
 

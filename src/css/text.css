@@ -3,6 +3,10 @@
         color: var(--inactive-text);
     }
 
+    &_light-gray {
+        color: var(--light-gray-text);
+    }
+
     &_green {
         color: var(--accent-green-color);
     }
@@ -11,8 +15,30 @@
         color: var(--accent-red-color);
     }
 
+    &_plus {
+        background-color: var(--secondary-green-bg-color);
+    }
+
+    &_minus {
+        background-color: var(--secondary-red-color);
+    }
+
     &_button_s {
         font-size: 13px;
         line-height: 15px;
     }
+
+    &_size {
+        &_xs {
+            font-size: var(--font-size-xs);
+            line-height: var(--line-height-xs);
+
+        }
+    }
+
+    &_family_mono {
+        font-family: 'PT Mono', monospace;
+    }
+
+
 }

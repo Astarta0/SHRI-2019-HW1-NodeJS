@@ -9,6 +9,9 @@
 @import './variables.css';
 @import './shuffle.css';
 @import './container.css';
+@import './indent.css';
+@import './padding.css';
+@import './position.css';
 
 html {
     font-family: "YS Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;

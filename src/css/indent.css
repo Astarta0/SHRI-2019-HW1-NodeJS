@@ -1,0 +1,23 @@
+.indent {
+    &_right {
+        &_l {
+            margin-right: var(--space-l);
+        }
+
+        &_xxl {
+            margin-right: var(--space-xxl);
+        }
+
+        &_m {
+            margin-right: var(--space-m);
+        }
+
+        &_s {
+            margin-right: var(--space-s);
+        }
+
+        &_xs {
+            margin-right: var(--space-xs);
+        }
+    }
+}
