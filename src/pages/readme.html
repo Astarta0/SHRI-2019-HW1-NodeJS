@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<include src="src/head.html"></include>
+<body>
+<Header></Header>
+<main>
+    <Breadcrumbs>README.md</Breadcrumbs>
+    <include src="src/pages/blocks/repo-info-header.html"></include>
+    <Tabs>
+        <Tab class="tabs__item_active">Files</Tab>
+        <Tab>Branches</Tab>
+    </Tabs>
+    <include src="src/pages/blocks/repo-root-table.html"></include>
+    <MdFrame>
+        <h2>Плагины и конфиги комбайна</h2>
+        <p>
+            Плагины - статически собираются в образ, любая модификация требует пересборки
+            образа и перевыкатки сервиса. Перед перевыкаткой нужно не забыть поменять layers
+            на новый, версию предыдущего layer можно посмотреть в сервисе.
+            https://nanny.yandex-team.ru/ui/#/services/dashboards/catalog/combaine/
+        </p>
+        <p>
+            Конфиги - деплоятся динамически через deploy-configs.py, который запускается
+            по крону на всех комбайнах. Скрипт generator.py и deploy-configs.py деплоятся
+            динамически вместе с конфигами. Каталог configs poll-ится на измененние svn
+            ревизии раз в минуту, поэтому задержка деплоя конфигов в комбайн должна быть
+            не больше минуты с момента мерджа в транк.
+        </p>
+    </MdFrame>
+</main>
+<Footer></Footer>
+<script src="../client.js"></script>
+</body>
+</html>

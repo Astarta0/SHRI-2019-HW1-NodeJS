@@ -31,7 +31,20 @@
 
     &__content {
         &_diffBackground {
-            background-image: linear-gradient(0deg, #ffffff 7.30%, #e6ffed 7.30%, #e6ffed 18.25%, #e6ffed 18.25%, #e6ffed 25.18%, #ffeef0 25.18%, #ffeef0 34.67%, #fff 34.67%, #fff 42.70%, #fff 42.70%, #fff 50%, #ffffff 50%, #ffffff 57.30%, #e6ffed 57.30%, #e6ffed 68.25%, #e6ffed 68.25%, #e6ffed 75.50%, #ffeef0 75.18%, #ffeef0 84.67%, #fff 84.67%, #fff 92.70%, #fff 92.70%, #fff 100%);
+            background-image: linear-gradient(
+                    #fff 80px,
+                    #e6ffed 80px,
+                    #e6ffed 160px,
+                    #fff 160px,
+                    #fff 240px,
+                    #ffeef0 240px,
+                    #ffeef0 320px,
+                    #fff 320px,
+                    #fff 480px,
+                    #e6ffed 480px,
+                    #e6ffed 600px,
+                    #fff 600px
+            );
         }
     }
 
@@ -41,6 +54,10 @@
         margin: 0;
         margin-right: var(--space-xxl) ;
         padding-inline-start: 24px;
+
+        & + & {
+            padding: 0;
+        }
     }
 
     &__line {
@@ -57,6 +74,11 @@
         white-space: pre-wrap;
         word-break: break-all;
         overflow: hidden;
+    }
+
+    &__md {
+        padding: var(--space-m);
+        word-break: break-all;
     }
 
     &__commitDiffCount {
@@ -88,6 +110,7 @@
 
     .code-frame {
         margin-top: var(--space-s);
+        border-radius: 0;
 
         &__header_commit {
             height: auto;

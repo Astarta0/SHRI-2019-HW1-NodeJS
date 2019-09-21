@@ -7,8 +7,8 @@ const util = require('util');
 const { exec } = require('child_process');
 const promisifyExec = util.promisify(exec);
 
-const router = require('./src/reposRouter');
-const APP_DATA = require('./src/appData');
+const router = require('./src/server/reposRouter');
+const APP_DATA = require('./src/server/appData');
 
 const app = express();
 

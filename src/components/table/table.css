@@ -65,6 +65,10 @@
         &_updated {
             flex-basis: 120px;
         }
+
+        &_full {
+            flex-basis: 100%;
+        }
     }
 }
 
