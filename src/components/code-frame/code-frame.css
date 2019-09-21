@@ -29,7 +29,9 @@
     }
 
     &__content {
-        display: flex;
+        &_diffBackground {
+            background-image: linear-gradient(0deg, #ffffff 7.30%, #e6ffed 7.30%, #e6ffed 18.25%, #e6ffed 18.25%, #e6ffed 25.18%, #ffeef0 25.18%, #ffeef0 34.67%, #fff 34.67%, #fff 42.70%, #fff 42.70%, #fff 50%, #ffffff 50%, #ffffff 57.30%, #e6ffed 57.30%, #e6ffed 68.25%, #e6ffed 68.25%, #e6ffed 75.50%, #ffeef0 75.18%, #ffeef0 84.67%, #fff 84.67%, #fff 92.70%, #fff 92.70%, #fff 100%);
+        }
     }
 
     &__lines {
@@ -74,13 +76,19 @@
 @media (max-width: 960px) {
     .code-wrapper {
         width: 100vw;
-        /*TODO */
         position: relative;
         margin-left: -50vw;
         left: 50%;
     }
 
     .code-frame {
+        margin-top: var(--space-s);
+
+        /* нельзя ставить &__header {
+            flex-direction: column;
+            align-items: flex-start;
+        }*/
+
         &__button {
             display: none;
         }

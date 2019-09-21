@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<include src="src/head.html"></include>
+<body>
+<Header></Header>
+<main>
+    <Breadcrumbs>ya.make</Breadcrumbs>
+    <Info>
+        <div class="info__title font font_medium">
+            <span>arcadia</span>
+            <BranchSelector></BranchSelector>
+        </div>
+        <div class="info__description">
+            Last commit
+            <a class="link">c4d248</a>
+            on
+            <a class="link">20 Oct 2017, 12:24</a>
+            by
+            <a class="info__person committer committer_email">
+                robot-srch-releaser
+            </a>
+        </div>
+    </Info>
+    <Tabs>
+        <Tab class="tabs__item_active">Details</Tab>
+        <Tab>History</Tab>
+    </Tabs>
+    <CodeFrame><include src="src/code/python.html" /></CodeFrame>
+</main>
+<Footer></Footer>
+<script src="../client.js"></script>
+</body>
+</html>

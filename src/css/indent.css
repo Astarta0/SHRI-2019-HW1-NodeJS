@@ -8,6 +8,10 @@
             margin-right: var(--space-xxl);
         }
 
+        &_xl {
+            margin-right: var(--space-xxl);
+        }
+
         &_m {
             margin-right: var(--space-m);
         }
@@ -18,6 +22,32 @@
 
         &_xs {
             margin-right: var(--space-xs);
+        }
+    }
+
+    &_top {
+        &_l {
+            margin-top: var(--space-l);
+        }
+
+        &_xxl {
+            margin-top: var(--space-xxl);
+        }
+
+        &_xl {
+            margin-top: var(--space-xxl);
+        }
+
+        &_m {
+            margin-top: var(--space-m);
+        }
+
+        &_s {
+            margin-top: var(--space-s);
+        }
+
+        &_xs {
+            margin-top: var(--space-xs);
         }
     }
 }

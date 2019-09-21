@@ -36,6 +36,7 @@ code, pre {
     padding: 0 !important;
     margin: 0 !important;
     font-family: 'PT Mono', monospace;
+    background-color: transparent !important;
 }
 
 @media (max-width: 960px) {
@@ -43,5 +44,11 @@ code, pre {
         padding: 0 var(--space-m);
         overflow-x: hidden;
     }
+}
+
+h2 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-xl);
 }
 

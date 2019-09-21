@@ -18,15 +18,31 @@
         }
     }
 
+    &__description {
+        /* add for commit page */
+        &_mobile {
+            display: none;
+        }
+
+        &_desktop {
+            display: block;
+        }
+    }
+
     &__buttonBack {
         display: none;
     }
 
     &__buttonToFiles {
         height: auto;
+        width: max-content;
         border-radius: 4px;
         padding: var(--space-xs) var(--space-s);
         background-color: var(--button-bg-color);
+
+        .text {
+            width: max-content;
+        }
     }
 
     &__person {
@@ -55,6 +71,14 @@
 
         &__description {
             padding-right: var(--space-xxxl);
+            /* add for commit page */
+            &_mobile {
+                display: block;
+            }
+
+            &_desktop {
+                display: none;
+            }
         }
 
         &__buttonBack {
@@ -65,6 +89,7 @@
     .infoTitle{
         &__mainText {
             margin-top: var(--space-s);
+            font-size: var(--font-size-l);
         }
     }
 }

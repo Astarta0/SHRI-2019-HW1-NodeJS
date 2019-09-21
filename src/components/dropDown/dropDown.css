@@ -18,7 +18,7 @@
         width: 16px;
         left: 100%;
         margin-left: var(--space-xxs);
-        transition: transform 0.33s linear;
+        transition: transform 0.22s linear;
         background-image: url(../../assets/expand_arrow_down.svg);
         background-repeat: no-repeat;
         background-position: center;

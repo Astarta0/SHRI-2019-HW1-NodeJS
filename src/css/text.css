@@ -3,6 +3,10 @@
         color: var(--inactive-text);
     }
 
+    &_secondary {
+        color: var(--secondary-text-color);
+    }
+
     &_light-gray {
         color: var(--light-gray-text);
     }
@@ -15,30 +19,43 @@
         color: var(--accent-red-color);
     }
 
-    &_plus {
-        background-color: var(--secondary-green-bg-color);
-    }
-
-    &_minus {
-        background-color: var(--secondary-red-color);
-    }
-
     &_button_s {
         font-size: 13px;
         line-height: 15px;
+    }
+
+    &_hidden{
+        visibility: hidden;
     }
 
     &_size {
         &_xs {
             font-size: var(--font-size-xs);
             line-height: var(--line-height-xs);
+        }
 
+        &_s {
+            font-size: var(--font-size-s);
+            line-height: var(--line-height-s);
+        }
+
+        &_m {
+            font-size: var(--font-size-m);
+            line-height: var(--line-height-m);
+        }
+
+        &_l {
+            font-size: var(--font-size-l);
+            line-height: var(--line-height-l);
+        }
+
+        &_xl {
+            font-size: var(--font-size-xl);
+            line-height: var(--line-height-xl);
         }
     }
 
     &_family_mono {
         font-family: 'PT Mono', monospace;
     }
-
-
 }

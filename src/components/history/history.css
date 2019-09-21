@@ -83,7 +83,7 @@
     }
 
     &__committer, &__time, &__committerEmail {
-        color: var(--branch-selector-commit-color);
+        color: var(--secondary-text-color);
     }
 
     &__committerEmail {
