@@ -13,7 +13,8 @@
 @import './popup/popup.css';
 
 @import './table/table.css';
-@import './tableRow/tableRow.css';
+@import './table/tableRow.css';
+@import './table/tableCell.css';
 
 @import './code-frame/code-frame.css';
 @import './icon/icon.css';

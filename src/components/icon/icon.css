@@ -3,6 +3,16 @@
     background-repeat: no-repeat;
     background-size: contain;
 
+    &_indent {
+        &_r_xs {
+            margin-right: var(--space-xs);
+        }
+
+        &_r_s {
+            margin-right: var(--space-s);
+        }
+    }
+
     &_folder {
         width: 12px;
         height: 20px;

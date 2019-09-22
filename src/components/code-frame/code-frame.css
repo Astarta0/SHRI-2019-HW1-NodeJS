@@ -9,8 +9,11 @@
     border-radius: 4px;
 
     &__header {
-        height: 42px;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
+        height: 42px;
+
         padding: 0 var(--space-m);
         border-bottom: 1px var(--separator) solid;
         background-color: #f5f5f5;
@@ -30,6 +33,30 @@
     }
 
     &__content {
+        display: flex;
+        position: relative;
+
+        &_pad_b{
+            &_xs {
+                padding-bottom: var(--space-xs);
+            }
+
+            &_xxxs {
+                padding-bottom: var(--space-xxxs);
+            }
+
+        }
+
+        &_pad_t{
+            &_xs {
+                padding-top: var(--space-xs);
+            }
+
+            &_xxxs {
+                padding-top: var(--space-xxxs);
+            }
+        }
+
         &_diffBackground {
             background-image: linear-gradient(
                     #fff 80px,
@@ -82,12 +109,24 @@
     }
 
     &__commitDiffCount {
+        display: flex;
+        justify-content: space-between;
         width: 80px;
     }
 
     &__controls {
+        display: flex;
+        align-items: center;
         height: 28px;
         background-color: var(--light-blue-bg-color);
+
+        &_pad_l_m {
+            padding-left: var(--space-l);
+        }
+
+        &_pad_r_m {
+            padding-right: var(--space-l);
+        }
     }
 
     &__aboveLinesIcon {
@@ -124,7 +163,7 @@
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 75%;
+            max-width: 65%;
             white-space: nowrap;
         }
 
@@ -147,7 +186,7 @@
         }
 
         &__controls {
-            .container_flex-basis_s {
+            .text {
                 flex-basis: 100%;
             }
         }

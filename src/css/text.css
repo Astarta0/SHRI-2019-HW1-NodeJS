@@ -55,6 +55,16 @@
         }
     }
 
+    &_indent {
+        &_r_xxl {
+            margin-right: var(--space-xxl);
+        }
+    }
+
+    &_basis_s {
+        flex-basis: 40%;
+    }
+
     &_family_mono {
         font-family: 'PT Mono', monospace;
     }

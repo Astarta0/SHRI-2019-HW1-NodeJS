@@ -83,6 +83,16 @@
 
         &__buttonBack {
             display: flex;
+
+            &_order_m1 {
+                order: 1;
+            }
+        }
+
+        &__buttonToFiles{
+            &_order_m2 {
+                order: 2;
+            }
         }
     }
 
@@ -90,6 +100,10 @@
         &__mainText {
             margin-top: var(--space-s);
             font-size: var(--font-size-l);
+
+            &_order_m3 {
+                oder: 3;
+            }
         }
     }
 }

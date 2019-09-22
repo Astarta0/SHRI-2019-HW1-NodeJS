@@ -72,58 +72,7 @@
     }
 }
 
-.cell {
-    &__folderName {
-        &_font_medium {
-            font-weight: 500;
-        }
-    }
-
-    &__icon {
-        margin-right: var(--space-xs);
-    }
-
-    &__committerName {
-        display: none;
-        margin-left: 4px;
-    }
-
-    &__arrowButton {
-        display: none;
-    }
-}
-
 @media (max-width: 960px) {
-    .cell {
-        height: 34px;
-
-        &__folderName {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-
-        &__committerEmail {
-            display: none;
-        }
-
-        &__committerName {
-            display: block;
-        }
-
-        &__apdateData {
-            margin-left: var(--space-xxs);
-        }
-
-        &__arrowButton {
-            display: inline-block;
-            transform: translateY(-40%);
-            position: absolute;
-            top: 50%;
-            right: 0;
-        }
-    }
-
     .table {
         &__header {
             display: none;
