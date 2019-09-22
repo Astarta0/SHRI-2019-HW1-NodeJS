@@ -1,0 +1,44 @@
+.popup {
+    &__pullButton {
+        display: none;
+
+        height: 4px;
+        width: 42px;
+        margin: 0 auto;
+        border-radius: 10px;
+        background-color: var(--separator);
+
+        &_indent_b_l {
+            margin-bottom: var(--space-l);
+        }
+
+        &_indent_b_s {
+            margin-bottom: var(--space-s);
+        }
+    }
+}
+
+@media (max-width: 960px) {
+    .popup{
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+
+        padding-top: var(--space-xs);
+        border-radius: 10px 10px 0 0 ;
+
+        &_pad_l_m {
+            padding-left: var(--space-m);
+        }
+
+        &_pad_r_m {
+            padding-right: var(--space-m);
+        }
+
+        &__pullButton {
+            display: block;
+        }
+    }
+}

@@ -54,7 +54,7 @@
 
 .select {
     min-width: 266px;
-    height: 124px;
+    min-height: 124px;
     padding: 14px 22px 18px;
     box-sizing: border-box;
 
@@ -62,7 +62,7 @@
     top: calc(100% + 18px);
 
     overflow-y: scroll;
-    z-index: 1;
+    z-index: 2;
 
     font-size: var(--font-size-s);
     line-height: var(--line-height-s);
@@ -91,8 +91,21 @@
 }
 
 
-/*@media (max-width: 960px) {
-    .dropDown_expanded {
-        display: none;
+@media (max-width: 960px) {
+    .dropDown {
+        &_expanded {
+            &::before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+        }
     }
-}*/
+}

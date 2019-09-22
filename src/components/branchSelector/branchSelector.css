@@ -144,6 +144,8 @@
 
     &__lastCommit {
         color: var(--secondary-text-color);
+        font-weight: normal;
+        font-size: 13px;
     }
 }
 
@@ -151,6 +153,21 @@
     .branchSelector {
         &__label {
             font-size: var(--font-size-l);
+        }
+
+        &_expanded {
+            &::before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+
+                background-color: rgba(0, 0, 0, 0.5);
+            }
         }
     }
 }

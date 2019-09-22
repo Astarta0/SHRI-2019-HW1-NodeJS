@@ -11,7 +11,7 @@ for (const dropdown of dropdowns) {
         e.target.classList.add('dropDown_expanded');
     });
     dropdown.addEventListener('mouseleave', e => {
-        timer = setTimeout(() => e.target.classList.remove('dropDown_expanded'), 500);
+        timer = setTimeout(() => e.target.classList.remove('dropDown_expanded'), 300);
     });
 }
 
@@ -23,6 +23,6 @@ for (const branchSelector of branchSelectors) {
         e.target.classList.add('branchSelector_expanded');
     });
     branchSelector.addEventListener('mouseleave', e => {
-        timer = setTimeout(() => e.target.classList.remove('branchSelector_expanded'), 500);
+        timer = setTimeout(() => e.target.classList.remove('branchSelector_expanded'), 300);
     });
 }

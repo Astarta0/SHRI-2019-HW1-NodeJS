@@ -10,6 +10,7 @@
 @import './info/info.css';
 @import './tabs/tabs.css';
 @import './history/history.css';
+@import './popup/popup.css';
 
 @import './table/table.css';
 @import './tableRow/tableRow.css';
