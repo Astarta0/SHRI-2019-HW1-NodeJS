@@ -11,6 +11,8 @@
 @import './tabs/tabs.css';
 @import './history/history.css';
 @import './popup/popup.css';
+@import './search/search.css';
+@import './input/input.css';
 
 @import './table/table.css';
 @import './table/tableRow.css';

@@ -1,0 +1,22 @@
+.search {
+    display: flex;
+
+    &__input {
+        width: 250px;
+        border-radius: 4px;
+        height: 30px;
+    }
+
+    &__button {
+        margin-left: var(--space-s);
+        padding: 4px 6px;
+        border: 1px solid var(--gray-color);
+        border-radius: 4px;
+        font-size: var(--font-size-s);
+        line-height: var(--line-height-s);
+
+        &:hover {
+            border-color: var(--accent-red-color);
+        }
+    }
+}

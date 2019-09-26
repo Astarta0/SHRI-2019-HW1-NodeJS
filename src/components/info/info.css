@@ -52,6 +52,10 @@
     &__branchSelector {
         margin-left: var(--space-xxs);
     }
+
+    &__search {
+        margin-top: var(--space-s);
+    }
 }
 
 @media (max-width: 960px) {
