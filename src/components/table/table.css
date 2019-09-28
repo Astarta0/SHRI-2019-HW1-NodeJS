@@ -42,7 +42,12 @@
         }
 
         &_name {
-            flex-basis: 20%;
+            flex-basis: 25%;
+            overflow: hidden;
+
+            .icon {
+                flex-shrink: 0;
+            }
         }
 
         &_commit {
@@ -51,10 +56,17 @@
 
         &_message {
             flex: 1;
+
+            overflow: hidden;
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
 
         &_committer {
-            flex-basis: 20%;
+            flex-basis: 10%;
 
             p {
                 margin-top: 0;
@@ -68,6 +80,14 @@
 
         &_full {
             flex-basis: 100%;
+        }
+    }
+
+    &__infoBlock {
+        margin: var(--space-xxxl) auto;
+
+        &_error {
+            color: var(--accent-red-color);
         }
     }
 }

@@ -202,13 +202,13 @@ router.get(
                     : repoPath.slice(1) + '/'
                 : '';
 
-            const content = await gitUtils.getWorkingTree(
+            const files = await gitUtils.getWorkingTree(
                 repositoryId,
                 mainBranch,
                 repoPath
             );
 
-            res.json({ content });
+            res.json({ files });
         });
     })
 );

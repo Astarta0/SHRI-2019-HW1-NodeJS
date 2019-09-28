@@ -5,18 +5,17 @@
         width: 250px;
         border-radius: 4px;
         height: 30px;
+
+        &:focus {
+            border: 1px solid var(--red-border-color);
+        }
     }
+}
 
-    &__button {
-        margin-left: var(--space-s);
-        padding: 4px 6px;
-        border: 1px solid var(--gray-color);
-        border-radius: 4px;
-        font-size: var(--font-size-s);
-        line-height: var(--line-height-s);
-
-        &:hover {
-            border-color: var(--accent-red-color);
+@media (max-width: 360px) {
+    .search {
+        &__input {
+            width: 100%;
         }
     }
 }

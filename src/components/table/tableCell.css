@@ -1,5 +1,9 @@
 .cell {
     &__folderName {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
         &_font_medium {
             font-weight: 500;
         }

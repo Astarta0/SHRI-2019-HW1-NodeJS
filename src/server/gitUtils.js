@@ -139,11 +139,13 @@ const gitUtils = {
         const gitDir = getGitDirParam(repositoryId);
         const workTree = getWorkTreeParam(repositoryId);
 
+        console.log({ gitDir, workTree, commitHash, path });
+
         const { stdout: stdoutLstree } = await exec(
             `git ${gitDir} ${workTree} ls-tree ${commitHash} ${path}`
         );
 
-        return stdoutLstree
+        let files =  stdoutLstree
             .split('\n')
             .filter(str => str)
             .map(str => {
@@ -153,6 +155,28 @@ const gitUtils = {
                     name,
                 };
             });
+
+        let filesInfo = await Promise.all(files.map(({ name, type }) => {
+            return exec(
+                `git ${gitDir} ${workTree} log --pretty=format:'%h%n%s%n%cN%n%cE%n%at%n' -n 1 ${commitHash} -- ${name}`
+            );
+        }));
+
+        filesInfo = filesInfo.map((obj, idx) => {
+            const [commitHash, commitMessage, committerName, committerEmail, date] = obj.stdout.split(/\n/g);
+
+            return {
+                name: files[idx].name,
+                type: files[idx].type,
+                commitHash,
+                commitMessage,
+                committerName,
+                committerEmail,
+                date
+            };
+        });
+
+        return filesInfo;
     },
 
     diffStream: ({ repositoryId, parent, commitHash, res }) => {

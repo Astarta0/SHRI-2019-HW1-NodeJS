@@ -8,6 +8,6 @@
     line-height: var(--line-height-s);
 
     &:focus {
-        outline: 1px solid var(--gray-color);
+        outline: none;
     }
 }
