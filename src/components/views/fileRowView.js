@@ -62,7 +62,7 @@ export default class FileRowView extends View {
                         </div>
                         <div class="table__cell cell table__cell_message">
                         <span>
-                            <a class="link">ARCADIA-771</a>
+                            <!--<a class="link">ARCADIA-771</a>-->
                             ${commitMessage}
                         </span>
                             <div class="cell__arrowButton">
