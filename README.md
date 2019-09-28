@@ -45,8 +45,8 @@
      {"url": "https://github.com/trekhleb/javascript-algorithms.git"}
 
  5. Теперь можно запустить клиент
-     `npm start`
-     и открыть `http://localhost:1234/index.html`
+     npm start
+     и открыть http://localhost:1234/index.html
 ```
 
 ### Notes
