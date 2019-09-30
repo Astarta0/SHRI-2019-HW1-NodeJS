@@ -12,8 +12,6 @@ export default class Store {
             dispatch: (action, ...args) => this.dispatch(action, ...args)
         };
 
-        console.log({ middlewares });
-
         const chain = middlewares.map(middleware => middleware(middlewareAPI));
 
         this.dispatch = compose(...chain)(this._dispatch);

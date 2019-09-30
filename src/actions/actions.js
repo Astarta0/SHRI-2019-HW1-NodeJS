@@ -9,22 +9,14 @@ const AXIOS_INSTANCE = axios.create({
 
 export function fetchFiles() {
     return async dispatch => {
-        dispatch({
-            type: TYPE.UPDATE_FILES_LIST_PENDING
-        });
+        dispatch(updateFilesListPending());
 
         try {
             const { data: { files } } = await AXIOS_INSTANCE.get('/api/repos/' + `${REPOSITORY_ID}/tree/${COMMIT_HASH}`);
 
-            dispatch({
-                type: TYPE.UPDATE_FILES_LIST_SUCCESS,
-                payload: { files }
-            });
+            dispatch(updateFilesListSuccess(files));
         } catch (error) {
-            dispatch({
-                type: TYPE.UPDATE_FILES_LIST_FAILED,
-                payload: { error: error.message }
-            });
+            dispatch(updateFilesListFailed(error));
         }
     };
 }
@@ -35,6 +27,26 @@ export function searchFiles(searchName) {
         payload: {
             searchName
         }
+    };
+}
+
+export function updateFilesListPending() {
+    return {
+        type: TYPE.UPDATE_FILES_LIST_PENDING
+    };
+}
+
+export function updateFilesListSuccess(files) {
+    return {
+        type: TYPE.UPDATE_FILES_LIST_SUCCESS,
+        payload: { files }
+    };
+}
+
+export function updateFilesListFailed(error) {
+    return {
+        type: TYPE.UPDATE_FILES_LIST_FAILED,
+        payload: { error: error.message }
     };
 }
 
