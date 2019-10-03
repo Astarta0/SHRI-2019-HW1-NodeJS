@@ -106,7 +106,7 @@
             font-size: var(--font-size-l);
 
             &_order_m3 {
-                oder: 3;
+                order: 3;
             }
         }
     }
